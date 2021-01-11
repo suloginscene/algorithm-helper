@@ -2,7 +2,10 @@ package com.github.suloginscene.algorithm.helper.binarytree;
 
 import lombok.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 public interface BinaryTree<N extends Node<N, V>, V> {
@@ -14,6 +17,21 @@ public interface BinaryTree<N extends Node<N, V>, V> {
     Optional<N> find(@NonNull N node);
 
     void delete(@NonNull N node);
+
+
+    default int size() {
+        List<N> nodes = new ArrayList<>();
+        inOrder(nodes::add);
+        return nodes.size();
+    }
+
+    default void inOrder(Consumer<N> consumer) {
+        TraversalUtil.inOrder(getRoot(), consumer);
+    }
+
+    default void inOrder(N root, Consumer<N> consumer) {
+        TraversalUtil.inOrder(root, consumer);
+    }
 
 
     default void print() {

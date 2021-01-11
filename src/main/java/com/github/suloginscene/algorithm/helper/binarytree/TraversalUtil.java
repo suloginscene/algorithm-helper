@@ -3,6 +3,7 @@ package com.github.suloginscene.algorithm.helper.binarytree;
 import lombok.NonNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +15,12 @@ class TraversalUtil {
 
     protected static <N extends Node<N, V>, V> List<N> inOrder(@NonNull N root) {
         List<N> nodes = new ArrayList<>();
-        recursiveInorder(root, nodes::add);
+        inOrder(root, nodes::add);
         return nodes;
+    }
+
+    protected static <N extends Node<N, V>, V> void inOrder(@NonNull N root, Consumer<N> consumer) {
+        recursiveInorder(root, consumer);
     }
 
     private static <N extends Node<N, V>, V> void recursiveInorder(N node, Consumer<N> consumer) {
@@ -46,6 +51,25 @@ class TraversalUtil {
         }
 
         return listList;
+    }
+
+
+    protected static <N extends Node<N, V>, V> int findHeight(@NonNull N root) {
+        List<Integer> heights = new ArrayList<>();
+        inOrderToFindHeight(root, heights::add);
+        return heights.stream().max(Comparator.naturalOrder()).orElseThrow();
+    }
+
+    private static <N extends Node<N, V>, V> void inOrderToFindHeight(@NonNull N root, Consumer<Integer> consumer) {
+        recursiveInOrderToFindHeight(root, 1, consumer);
+    }
+
+    private static <N extends Node<N, V>, V> void recursiveInOrderToFindHeight(N node, int height, Consumer<Integer> consumer) {
+        if (node == null) return;
+
+        recursiveInOrderToFindHeight(node.getLeft(), height + 1, consumer);
+        consumer.accept(height);
+        recursiveInOrderToFindHeight(node.getRight(), height + 1, consumer);
     }
 
 }

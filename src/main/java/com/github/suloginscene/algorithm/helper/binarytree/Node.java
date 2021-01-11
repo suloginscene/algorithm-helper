@@ -28,6 +28,7 @@ public interface Node<N extends Node<N, V>, V> {
         return hasLeft() && hasRight();
     }
 
+
     default boolean leftIs(N node) {
         if (!hasLeft()) return false;
         return getLeft().equals(node);

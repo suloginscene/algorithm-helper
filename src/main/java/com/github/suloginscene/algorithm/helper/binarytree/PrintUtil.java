@@ -17,8 +17,13 @@ class PrintUtil {
      * Summary is string from node.toSummary().
      */
     protected static <N extends Node<N, V>, V> void print(@NonNull N root) {
-        StringBuilder sb = new StringBuilder();
+        int height = TraversalUtil.findHeight(root);
+        if (height > 7) {
+            log.warn("\n> Too big to print (Height: " + height + ", Root: " + root.toSummary() + ")\n");
+            return;
+        }
 
+        StringBuilder sb = new StringBuilder();
         List<List<N>> levelOrdered = TraversalUtil.levelOrder(root);
 
         int contentDigit = DigitUtil.calculateContentDigit(root);
@@ -37,29 +42,19 @@ class PrintUtil {
             sb.append("\n");
         }
 
-        printToLogger(sb.toString());
-    }
-
-    private static void printToLogger(String treeString) {
-        log.info("\n" +
-                "=".repeat(34) + " Print Tree " + "=".repeat(34) + "\n" +
-                treeString
-        );
+        log.info("\n> Print Tree\n" + sb.toString());
     }
 
 
     private static class DigitUtil {
         private static <N extends Node<N, V>, V> int calculateContentDigit(N root) {
-            int maxLength = 0;
             List<N> nodes = TraversalUtil.inOrder(root);
+            int maxLength = 0;
             for (N node : nodes) {
                 int length = node.toSummary().length();
                 maxLength = Math.max(length, maxLength);
             }
-            if ((maxLength % 2) != 0) {
-                maxLength++;
-            }
-            return maxLength;
+            return ((maxLength % 2) == 0) ? maxLength : maxLength + 1;
         }
 
         private static int calculateElementDigit(int contentDigit) {
