@@ -8,7 +8,11 @@ public class IntegersFactory {
     }
 
     public static Integers stablyShuffled(int n) {
-        return new Shuffled(n);
+        return new Shuffled(n, true);
+    }
+
+    public static Integers stablyShuffled(int n, boolean logShuffle) {
+        return new Shuffled(n, logShuffle);
     }
 
 }

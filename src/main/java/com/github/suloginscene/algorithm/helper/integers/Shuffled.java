@@ -1,6 +1,7 @@
 package com.github.suloginscene.algorithm.helper.integers;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Queue;
 
 
-@Getter
+@Getter @Slf4j
 class Shuffled extends Integers {
 
     private final Integer first;
@@ -16,82 +17,66 @@ class Shuffled extends Integers {
     private final Integer last;
 
 
-    protected Shuffled(int n) {
+    protected Shuffled(int n, boolean logShuffle) {
+        if (n < 3) throw new IllegalArgumentException("Too short to shuffle.(min: 3)");
+
+        long start = System.currentTimeMillis();
+
         for (int i = 1; i <= n; i++) {
             integers.add(i);
         }
 
-        int count = 0;
-        while ((n > 2) && !shuffled(integers)) {
-            hinduShuffle(integers);
+        hinduShuffle(integers, 2);
+        for (int i = 0; i < 7; i++) {
             riffleShuffle(integers);
-            hinduShuffle(integers);
-            count++;
-            if (count > 10) throw new RuntimeException("Infinite shuffle.(Try different n)");
         }
+        hinduShuffle(integers, 3);
 
         first = integers.get(0);
         mid = integers.get(n / 2);
         last = integers.get(n - 1);
+
+        long end = System.currentTimeMillis();
+        long time = end - start;
+
+        if (logShuffle) {
+            logShuffle(n, time);
+        }
     }
 
 
-    private void hinduShuffle(List<Integer> integers) {
-        int size = integers.size();
-        List<Integer> firstHalf = new ArrayList<>(integers.subList(0, size / 3));
+    private void hinduShuffle(List<Integer> integers, int n) {
+        List<Integer> headers = new ArrayList<>(integers.subList(0, n));
 
-        integers.removeAll(firstHalf);
-        integers.addAll(firstHalf);
+        integers.removeAll(headers);
+        integers.addAll(headers);
     }
 
     private void riffleShuffle(List<Integer> integers) {
         int size = integers.size();
-        Queue<Integer> firstHalf = new LinkedList<>(integers.subList(0, size / 2));
-        Queue<Integer> secondHalf = new LinkedList<>(integers.subList(size / 2, size));
+        Queue<Integer> left = new LinkedList<>(integers.subList(0, size / 2));
+        Queue<Integer> right = new LinkedList<>(integers.subList(size / 2, size));
         integers.clear();
 
-        boolean isOdd = false;
-        while (integers.size() < size) {
-            Integer integer = (isOdd = !isOdd) ? firstHalf.poll() : secondHalf.poll();
-            if (integer != null) {
-                integers.add(integer);
-            }
+        boolean odd = false;
+        while (!left.isEmpty()) {
+            Integer next = (odd = !odd) ? left.poll() : right.poll();
+            integers.add(next);
+        }
+        while (!right.isEmpty()) {
+            integers.add(right.poll());
         }
     }
 
 
-    private boolean shuffled(List<Integer> integers) {
-        return hasProperHead(integers) && isScattered(integers);
-    }
+    private void logShuffle(int n, long time) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n> Shuffled in ").append(time).append(" ms.\n");
 
-    private boolean hasProperHead(List<Integer> integers) {
-        int size = integers.size();
+        if (n <= 16) sb.append(integers);
+        else sb.append(integers.subList(0, 16)).append(" ...");
 
-        int lowThreshold = size / 4;
-        int highThreshold = (size * 3) / 4;
-
-        Integer head = integers.get(0);
-        return (head > lowThreshold) && (head < highThreshold);
-    }
-
-    private boolean isScattered(List<Integer> integers) {
-        int size = integers.size();
-
-        for (int i = 0; i < size; i++) {
-            Integer standard = integers.get(i);
-            int sequence = 1;
-
-            for (int j = i + 1; j < size; j++) {
-                Integer current = integers.get(j);
-                if (current != standard + 1) break;
-
-                standard = current;
-                sequence++;
-                if (sequence > 3) return false;
-            }
-
-        }
-        return true;
+        log.debug(sb.toString());
     }
 
 }

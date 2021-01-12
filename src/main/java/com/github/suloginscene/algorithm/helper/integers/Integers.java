@@ -1,5 +1,6 @@
 package com.github.suloginscene.algorithm.helper.integers;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -8,15 +9,14 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+import static lombok.AccessLevel.PROTECTED;
+
 
 @Slf4j
+@NoArgsConstructor(access = PROTECTED)
 public abstract class Integers implements Iterable<Integer> {
 
     protected final List<Integer> integers = new ArrayList<>();
-
-
-    protected Integers() {
-    }
 
 
     public abstract Integer getFirst();
@@ -24,6 +24,17 @@ public abstract class Integers implements Iterable<Integer> {
     public abstract Integer getMid();
 
     public abstract Integer getLast();
+
+
+    public int[] toArray() {
+        int size = integers.size();
+        int[] array = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            array[i] = integers.get(i);
+        }
+        return array;
+    }
 
 
     @Override
