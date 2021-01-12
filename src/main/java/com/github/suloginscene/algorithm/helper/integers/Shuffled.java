@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static java.lang.System.currentTimeMillis;
+
 
 @Getter @Slf4j
 class Shuffled extends Integers {
@@ -20,7 +22,7 @@ class Shuffled extends Integers {
     protected Shuffled(int n, boolean logShuffle) {
         if (n < 3) throw new IllegalArgumentException("Too short to shuffle.(min: 3)");
 
-        long start = System.currentTimeMillis();
+        long start = currentTimeMillis();
 
         for (int i = 1; i <= n; i++) {
             integers.add(i);
@@ -36,7 +38,7 @@ class Shuffled extends Integers {
         mid = integers.get(n / 2);
         last = integers.get(n - 1);
 
-        long end = System.currentTimeMillis();
+        long end = currentTimeMillis();
         long time = end - start;
 
         if (logShuffle) {

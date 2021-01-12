@@ -54,22 +54,22 @@ class TraversalUtil {
     }
 
 
-    protected static <N extends Node<N, V>, V> int findHeight(@NonNull N root) {
+    protected static <N extends Node<N, V>, V> int height(@NonNull N root) {
         List<Integer> heights = new ArrayList<>();
-        inOrderToFindHeight(root, heights::add);
+        inOrderToHeight(root, heights::add);
         return heights.stream().max(Comparator.naturalOrder()).orElseThrow();
     }
 
-    private static <N extends Node<N, V>, V> void inOrderToFindHeight(@NonNull N root, Consumer<Integer> consumer) {
-        recursiveInOrderToFindHeight(root, 1, consumer);
+    private static <N extends Node<N, V>, V> void inOrderToHeight(@NonNull N root, Consumer<Integer> consumer) {
+        recursiveInOrderToHeight(root, 1, consumer);
     }
 
-    private static <N extends Node<N, V>, V> void recursiveInOrderToFindHeight(N node, int height, Consumer<Integer> consumer) {
+    private static <N extends Node<N, V>, V> void recursiveInOrderToHeight(N node, int height, Consumer<Integer> consumer) {
         if (node == null) return;
 
-        recursiveInOrderToFindHeight(node.getLeft(), height + 1, consumer);
+        recursiveInOrderToHeight(node.getLeft(), height + 1, consumer);
         consumer.accept(height);
-        recursiveInOrderToFindHeight(node.getRight(), height + 1, consumer);
+        recursiveInOrderToHeight(node.getRight(), height + 1, consumer);
     }
 
 }

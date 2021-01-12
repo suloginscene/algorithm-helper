@@ -13,6 +13,16 @@ import static java.util.stream.Collectors.toList;
 public interface BinarySearchTree<N extends KvNode<N, K, V>, K extends Comparable<K>, V> extends BinaryTree<N, V> {
 
     @Override
+    default void save(@NonNull N node) {
+        validateKey(node.getKey());
+        doSave(node);
+        validateBst();
+    }
+
+    void doSave(@NonNull N node);
+
+
+    @Override
     default Optional<N> find(@NonNull N node) {
         K key = node.getKey();
         return this.findNode(key);
@@ -35,15 +45,20 @@ public interface BinarySearchTree<N extends KvNode<N, K, V>, K extends Comparabl
         this.delete(key);
     }
 
-    void delete(@NonNull K key);
+    default void delete(@NonNull K key) {
+        doDelete(key);
+        validateBst();
+    }
+
+    void doDelete(@NonNull K key);
 
 
-    default void validateKey(@NonNull K key) {
+    private void validateKey(@NonNull K key) {
         Optional<N> node = findNode(key);
         if (node.isPresent()) throw new IllegalArgumentException("Duplicated key.");
     }
 
-    default void validateBst() {
+    private void validateBst() {
         if (getRoot() == null) return;
 
         List<N> nodes = new ArrayList<>();

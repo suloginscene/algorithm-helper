@@ -17,7 +17,7 @@ class PrintUtil {
      * Summary is string from node.toSummary().
      */
     protected static <N extends Node<N, V>, V> void print(@NonNull N root) {
-        int height = TraversalUtil.findHeight(root);
+        int height = TraversalUtil.height(root);
         if (height > 7) {
             log.warn("\n> Too big to print (Height: " + height + ", Root: " + root.toSummary() + ")\n");
             return;

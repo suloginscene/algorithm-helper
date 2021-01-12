@@ -6,9 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 
+import static java.lang.System.arraycopy;
+import static java.lang.System.currentTimeMillis;
+
 
 @Slf4j
-public final class SortsProfiler extends Sorts {
+public class SortsProfiler extends Sorts {
 
     public SortsProfiler(SortFactory sortFactory) {
         super(sortFactory);
@@ -16,11 +19,11 @@ public final class SortsProfiler extends Sorts {
 
 
     public void sort(int[] array) {
-        long start = System.currentTimeMillis();
+        long start = currentTimeMillis();
 
         super.sort(array);
 
-        long end = System.currentTimeMillis();
+        long end = currentTimeMillis();
         long time = end - start;
         int n = array.length;
 
@@ -33,7 +36,7 @@ public final class SortsProfiler extends Sorts {
             sb.append(Arrays.toString(array));
         } else {
             int[] preview = new int[16];
-            System.arraycopy(array, 0, preview, 0, 16);
+            arraycopy(array, 0, preview, 0, 16);
             sb.append(Arrays.toString(preview)).append(" ...");
         }
 

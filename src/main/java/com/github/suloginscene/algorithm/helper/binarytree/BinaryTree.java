@@ -25,6 +25,10 @@ public interface BinaryTree<N extends Node<N, V>, V> {
         return nodes.size();
     }
 
+    default int height() {
+        return TraversalUtil.height(getRoot());
+    }
+
     default void inOrder(Consumer<N> consumer) {
         TraversalUtil.inOrder(getRoot(), consumer);
     }
