@@ -1,4 +1,4 @@
-package com.github.suloginscene.algorithm.helper.array.sort.support;
+package com.github.suloginscene.algorithmhelper.util.library;
 
 import lombok.NoArgsConstructor;
 

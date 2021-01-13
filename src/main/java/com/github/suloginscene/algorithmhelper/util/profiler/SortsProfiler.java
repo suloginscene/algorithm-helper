@@ -1,7 +1,7 @@
-package com.github.suloginscene.algorithm.helper.array.sort.support;
+package com.github.suloginscene.algorithmhelper.util.profiler;
 
-import com.github.suloginscene.algorithm.helper.array.sort.SortFactory;
-import com.github.suloginscene.algorithm.helper.array.sort.Sorts;
+import com.github.suloginscene.algorithmhelper.core.sort.SortFactory;
+import com.github.suloginscene.algorithmhelper.core.sort.Sorts;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;

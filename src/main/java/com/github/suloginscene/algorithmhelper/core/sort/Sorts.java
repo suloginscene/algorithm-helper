@@ -1,4 +1,4 @@
-package com.github.suloginscene.algorithm.helper.array.sort;
+package com.github.suloginscene.algorithmhelper.core.sort;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,12 +6,12 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.github.suloginscene.algorithm.helper.array.sort.Strategy.BUBBLE;
-import static com.github.suloginscene.algorithm.helper.array.sort.Strategy.HEAP;
-import static com.github.suloginscene.algorithm.helper.array.sort.Strategy.INSERTION;
-import static com.github.suloginscene.algorithm.helper.array.sort.Strategy.MERGE;
-import static com.github.suloginscene.algorithm.helper.array.sort.Strategy.QUICK;
-import static com.github.suloginscene.algorithm.helper.array.sort.Strategy.SELECTION;
+import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.BUBBLE;
+import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.HEAP;
+import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.INSERTION;
+import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.MERGE;
+import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.QUICK;
+import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.SELECTION;
 
 
 public class Sorts {

@@ -1,7 +1,7 @@
-package com.github.suloginscene.algorithm.helper.integers;
+package com.github.suloginscene.algorithmhelper.util.numbergenerator;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,21 +12,17 @@ import java.util.function.Consumer;
 import static lombok.AccessLevel.PROTECTED;
 
 
-@Slf4j
-@NoArgsConstructor(access = PROTECTED)
+@Getter @NoArgsConstructor(access = PROTECTED)
 public abstract class Integers implements Iterable<Integer> {
 
     protected final List<Integer> integers = new ArrayList<>();
 
-
-    public abstract Integer getFirst();
-
-    public abstract Integer getMid();
-
-    public abstract Integer getLast();
+    protected Integer first;
+    protected Integer mid;
+    protected Integer last;
 
 
-    public int[] toArray() {
+    public int[] toIntArray() {
         int size = integers.size();
         int[] array = new int[size];
 
@@ -36,6 +32,14 @@ public abstract class Integers implements Iterable<Integer> {
         return array;
     }
 
+    public List<Integer> subList(int start, int end) {
+        return integers.subList(start, end);
+    }
+
+    @Override
+    public String toString() {
+        return integers.toString();
+    }
 
     @Override
     public void forEach(Consumer<? super Integer> action) {
@@ -50,15 +54,6 @@ public abstract class Integers implements Iterable<Integer> {
     @Override
     public Iterator<Integer> iterator() {
         return integers.iterator();
-    }
-
-    @Override
-    public String toString() {
-        return integers.toString();
-    }
-
-    public void print() {
-        log.debug("\n> Numbers: " + toString());
     }
 
 }

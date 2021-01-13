@@ -1,4 +1,4 @@
-package com.github.suloginscene.algorithm.helper.array.sort;
+package com.github.suloginscene.algorithmhelper.core.sort;
 
 
 public interface SortFactory {
