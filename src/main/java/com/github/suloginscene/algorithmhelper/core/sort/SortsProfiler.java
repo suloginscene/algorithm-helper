@@ -1,7 +1,5 @@
-package com.github.suloginscene.algorithmhelper.util.profiler;
+package com.github.suloginscene.algorithmhelper.core.sort;
 
-import com.github.suloginscene.algorithmhelper.core.sort.SortFactory;
-import com.github.suloginscene.algorithmhelper.core.sort.Sorts;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -13,8 +11,8 @@ import static java.lang.System.currentTimeMillis;
 @Slf4j
 public class SortsProfiler extends Sorts {
 
-    public SortsProfiler(SortFactory sortFactory) {
-        super(sortFactory);
+    public SortsProfiler(AlgorithmContainer algorithmContainer) {
+        super(algorithmContainer);
     }
 
 
@@ -29,7 +27,7 @@ public class SortsProfiler extends Sorts {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\n> ").append(getStrategy()).append(" Sort in ").append(time).append(" ms.");
+        sb.append("\n> ").append(super.getStrategy()).append(" Sort in ").append(time).append(" ms.");
         sb.append(" (n: ").append(n).append(")\n");
 
         if (n <= 16) {

@@ -1,5 +1,6 @@
-package com.github.suloginscene.algorithmhelper.util.numbergenerator;
+package com.github.suloginscene.algorithmhelper.util;
 
+import com.github.suloginscene.algorithmhelper.core.binarysearchtree.BST;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,19 +9,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
+import static java.util.stream.Collectors.toList;
 import static lombok.AccessLevel.PROTECTED;
 
 
-@Getter @NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 public abstract class Integers implements Iterable<Integer> {
 
     protected final List<Integer> integers = new ArrayList<>();
 
-    protected Integer first;
-    protected Integer mid;
-    protected Integer last;
+    @Getter protected Integer first;
+    @Getter protected Integer mid;
+    @Getter protected Integer last;
 
+
+    public List<Integer> toIntegerList() {
+        return new ArrayList<>(integers);
+    }
 
     public int[] toIntArray() {
         int size = integers.size();
@@ -30,6 +37,16 @@ public abstract class Integers implements Iterable<Integer> {
             array[i] = integers.get(i);
         }
         return array;
+    }
+
+    public List<BST.Node<Integer, String>> toNodeList() {
+        return toNodeList(Integer::toBinaryString);
+    }
+
+    public <V> List<BST.Node<Integer, V>> toNodeList(Function<Integer, V> toValueFunction) {
+        return integers.stream()
+                .map(i -> new BST.Node<>(i, toValueFunction.apply(i)))
+                .collect(toList());
     }
 
     public List<Integer> subList(int start, int end) {

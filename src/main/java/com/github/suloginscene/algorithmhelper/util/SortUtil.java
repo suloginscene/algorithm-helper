@@ -1,4 +1,4 @@
-package com.github.suloginscene.algorithmhelper.util.library;
+package com.github.suloginscene.algorithmhelper.util;
 
 import lombok.NoArgsConstructor;
 

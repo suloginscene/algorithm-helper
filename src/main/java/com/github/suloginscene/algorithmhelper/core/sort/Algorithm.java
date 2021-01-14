@@ -1,7 +1,7 @@
 package com.github.suloginscene.algorithmhelper.core.sort;
 
 
-public interface Sort {
+public interface Algorithm {
 
     void execute(int[] array);
 

@@ -1,4 +1,4 @@
-package com.github.suloginscene.algorithmhelper.util.numbergenerator;
+package com.github.suloginscene.algorithmhelper.util;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class IntegersFactory {
     private static void logIntegers(Integers integers, int n, Long time) {
         StringBuilder sb = new StringBuilder();
 
-        if (time != null) sb.append("\n> ").append("Created in ").append(time).append(" ms.");
+        if (time != null) sb.append("\n> ").append("Integers created in ").append(time).append(" ms.");
 
         sb.append("\n> ");
         if (n <= 16) sb.append(integers);

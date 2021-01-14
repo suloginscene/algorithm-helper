@@ -16,26 +16,26 @@ import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.SELECTI
 
 public class Sorts {
 
-    private final Map<Strategy, Sort> map = new HashMap<>();
+    private final Map<Strategy, Algorithm> map = new HashMap<>();
 
     @Getter @Setter
     private Strategy strategy;
 
 
-    public Sorts(SortFactory sortFactory) {
-        map.put(BUBBLE, sortFactory.bubble());
-        map.put(SELECTION, sortFactory.selection());
-        map.put(INSERTION, sortFactory.insertion());
-        map.put(MERGE, sortFactory.merge());
-        map.put(HEAP, sortFactory.heap());
-        map.put(QUICK, sortFactory.quick());
+    public Sorts(AlgorithmContainer algorithmContainer) {
+        map.put(BUBBLE, algorithmContainer.bubble());
+        map.put(SELECTION, algorithmContainer.selection());
+        map.put(INSERTION, algorithmContainer.insertion());
+        map.put(MERGE, algorithmContainer.merge());
+        map.put(HEAP, algorithmContainer.heap());
+        map.put(QUICK, algorithmContainer.quick());
         strategy = QUICK;
     }
 
 
     public void sort(int[] array) {
-        Sort sort = map.get(strategy);
-        sort.execute(array);
+        Algorithm algorithm = map.get(strategy);
+        algorithm.execute(array);
     }
 
 }

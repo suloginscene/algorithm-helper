@@ -4,37 +4,37 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.function.Function;
 
 
 @Slf4j
 class PrintUtil {
 
     /**
-     * [ row > element > content > summary ]
+     * [ row > element > content > string ]
      * Row have many elements.
      * Element wrap content in parenthesis and has margin.
      * Content normalize length of summary.
-     * Summary is string from node.toSummary().
+     * summary from toStringFunction.
      */
-    protected static <K extends Comparable<K>, V> void print(@NonNull BinarySearchTree.Node<K, V> root) {
-        int height = MetricUtil.height(root);
-        if (height > 7) {
-            log.warn("\n> Too big to print (Height: " + height + ", Root: " + root.toSummary() + ")\n");
+    protected static <K extends Comparable<K>, V> void print(@NonNull BST.Node<K, V> root, Function<BST.Node<K, V>, String> toStringFunction) {
+        if (MetricUtil.isHigherThan(root, 7)) {
+            log.warn("\n> Too big to print (max height: 7)\n");
             return;
         }
 
         StringBuilder sb = new StringBuilder();
-        List<List<BinarySearchTree.Node<K, V>>> levelOrdered = TraversalUtil.levelOrder(root);
+        List<List<BST.Node<K, V>>> levelOrdered = TraversalUtil.levelOrder(root);
 
-        int contentDigit = DigitUtil.calculateContentDigit(root);
+        int contentDigit = DigitUtil.calculateContentDigit(root, toStringFunction);
         int elementDigit = DigitUtil.calculateElementDigit(contentDigit);
         int rowDigit = DigitUtil.calculateRowDigit(levelOrdered, elementDigit);
 
-        for (List<BinarySearchTree.Node<K, V>> level : levelOrdered) {
+        for (List<BST.Node<K, V>> level : levelOrdered) {
             int marginDigit = DigitUtil.calculateMarginDigit(level, elementDigit, rowDigit);
 
-            for (BinarySearchTree.Node<K, V> node : level) {
-                String summary = ConvertUtil.nodeToSummary(node);
+            for (BST.Node<K, V> node : level) {
+                String summary = ConvertUtil.nodeToSummary(node, toStringFunction);
                 String content = ConvertUtil.summaryToContent(summary, contentDigit);
                 String element = ConvertUtil.contentToElement(content, marginDigit);
                 sb.append(element);
@@ -46,12 +46,39 @@ class PrintUtil {
     }
 
 
+    protected static <K extends Comparable<K>, V> void printPaths(@NonNull BST.Node<K, V> root) {
+        if (MetricUtil.isHigherThan(root, 5)) {
+            log.warn("\n> Too big to print paths (max height: 5)\n");
+            return;
+        }
+
+        Function<BST.Node<K, V>, String> toKeyFunction = n -> n.getKey().toString();
+        int contentDigit = DigitUtil.calculateContentDigit(root, toKeyFunction);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n> Print paths\n");
+
+        List<List<BST.Node<K, V>>> lists = PathUtil.pathsToNil(root);
+        for (List<BST.Node<K, V>> list : lists) {
+            sb.append("  ");
+            for (BST.Node<K, V> node : list) {
+                String summary = ConvertUtil.nodeToSummary(node, toKeyFunction);
+                String content = ConvertUtil.summaryToContent(summary, contentDigit);
+                sb.append(content).append(" - ");
+            }
+            int length = sb.length();
+            sb.delete(length - 3, length);
+            sb.append("\n");
+        }
+        log.debug(sb.toString());
+    }
+
     private static class DigitUtil {
-        private static <K extends Comparable<K>, V> int calculateContentDigit(BinarySearchTree.Node<K, V> root) {
-            List<BinarySearchTree.Node<K, V>> nodes = TraversalUtil.inOrder(root);
+        private static <K extends Comparable<K>, V> int calculateContentDigit(BST.Node<K, V> root, Function<BST.Node<K, V>, String> toStringFunction) {
+            List<BST.Node<K, V>> nodes = TraversalUtil.inOrder(root);
             int maxLength = 0;
-            for (BinarySearchTree.Node<K, V> node : nodes) {
-                int length = node.toSummary().length();
+            for (BST.Node<K, V> node : nodes) {
+                int length = toStringFunction.apply(node).length();
                 maxLength = Math.max(length, maxLength);
             }
             return ((maxLength % 2) == 0) ? maxLength : maxLength + 1;
@@ -61,13 +88,13 @@ class PrintUtil {
             return contentDigit + 2;
         }
 
-        private static <K extends Comparable<K>, V> int calculateRowDigit(List<List<BinarySearchTree.Node<K, V>>> levelOrdered, int elementDigit) {
+        private static <K extends Comparable<K>, V> int calculateRowDigit(List<List<BST.Node<K, V>>> levelOrdered, int elementDigit) {
             int treeHeight = levelOrdered.size();
             int treeWidth = levelOrdered.get(treeHeight - 1).size();
             return treeWidth * elementDigit;
         }
 
-        private static <K extends Comparable<K>, V> int calculateMarginDigit(List<BinarySearchTree.Node<K, V>> level, int elementDigit, int rowDigit) {
+        private static <K extends Comparable<K>, V> int calculateMarginDigit(List<BST.Node<K, V>> level, int elementDigit, int rowDigit) {
             int levelSize = level.size();
             int needfulDigit = levelSize * elementDigit;
             int needlessDigit = rowDigit - needfulDigit;
@@ -77,8 +104,8 @@ class PrintUtil {
 
 
     private static class ConvertUtil {
-        private static <K extends Comparable<K>, V> String nodeToSummary(BinarySearchTree.Node<K, V> node) {
-            return (node != null) ? node.toSummary() : "";
+        private static <K extends Comparable<K>, V> String nodeToSummary(BST.Node<K, V> node, Function<BST.Node<K, V>, String> toStringFunction) {
+            return (node != null) ? toStringFunction.apply(node) : "";
         }
 
         private static String summaryToContent(String summary, int contentDigit) {
