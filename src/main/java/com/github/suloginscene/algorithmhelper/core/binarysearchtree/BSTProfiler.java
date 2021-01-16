@@ -24,6 +24,11 @@ public class BSTProfiler<K extends Comparable<K>, V> extends BinarySearchTree<K,
     }
 
     @Override
+    public void setRoot(Node<K, V> node) {
+        binarySearchTree.setRoot(node);
+    }
+
+    @Override
     protected void doSave(@NonNull Node<K, V> node) {
         binarySearchTree.doSave(node);
     }

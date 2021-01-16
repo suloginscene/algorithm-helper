@@ -1,6 +1,5 @@
 package com.github.suloginscene.algorithmhelper.core.binarysearchtree;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -10,7 +9,11 @@ import java.util.function.Function;
 @Slf4j
 class PrintUtil {
 
-    protected static <K extends Comparable<K>, V> void print(@NonNull Node<K, V> root, Function<Node<K, V>, String> toStringFunction) {
+    protected static <K extends Comparable<K>, V> void print(Node<K, V> root, Function<Node<K, V>, String> toStringFunction) {
+        if (root == null) {
+            log.warn("\n> Root is null\n");
+            return;
+        }
         if (MetricUtil.isHigherThan(root, 7)) {
             log.warn("\n> Too big to print (max height: 7)\n");
             return;
@@ -34,7 +37,11 @@ class PrintUtil {
     }
 
 
-    protected static <K extends Comparable<K>, V> void printPaths(@NonNull Node<K, V> root) {
+    protected static <K extends Comparable<K>, V> void printPaths(Node<K, V> root) {
+        if (root == null) {
+            log.warn("\n> Root is null\n");
+            return;
+        }
         if (MetricUtil.isHigherThan(root, 5)) {
             log.warn("\n> Too big to print paths (max height: 5)\n");
             return;

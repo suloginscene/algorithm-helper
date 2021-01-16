@@ -52,6 +52,9 @@ public class Node<K extends Comparable<K>, V> implements Comparable<Node<K, V>> 
         return leftIs(node) || rightIs(node);
     }
 
+    public final int height() {
+        return MetricUtil.height(this);
+    }
 
     @Override
     public final int compareTo(Node<K, V> another) {

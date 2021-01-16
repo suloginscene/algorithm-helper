@@ -1,7 +1,5 @@
 package com.github.suloginscene.algorithmhelper.core.binarysearchtree;
 
-import lombok.NonNull;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,8 +25,9 @@ class TraversalUtil {
     }
 
 
-    protected static <K extends Comparable<K>, V> List<List<Node<K, V>>> levelOrder(@NonNull Node<K, V> root) {
+    protected static <K extends Comparable<K>, V> List<List<Node<K, V>>> levelOrder(Node<K, V> root) {
         List<List<Node<K, V>>> listList = new ArrayList<>();
+        if (root == null) return listList;
 
         Queue<Node<K, V>> queue = new LinkedList<>();
         queue.add(root);

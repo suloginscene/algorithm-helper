@@ -11,6 +11,7 @@ public abstract class BinarySearchTree<K extends Comparable<K>, V> {
 
     public abstract Node<K, V> getRoot();
 
+    public abstract void setRoot(Node<K, V> node);
 
     public void save(@NonNull K key, @NonNull V value) {
         ValidateUtil.validateKey(getRoot(), key);
@@ -57,6 +58,53 @@ public abstract class BinarySearchTree<K extends Comparable<K>, V> {
 
     public void printPaths() {
         PrintUtil.printPaths(getRoot());
+    }
+
+    public Optional<Node<K, V>> findParentOf(@NonNull Node<K, V> node) {
+        Node<K, V> root = getRoot();
+        if (node == root) return Optional.empty();
+
+        Node<K, V> pointer = root;
+        while (!pointer.isParentOf(node)) {
+            pointer = (pointer.isBiggerThan(node)) ? pointer.getLeft() : pointer.getRight();
+        }
+        return Optional.of(pointer);
+    }
+
+    public Optional<Node<K, V>> findSuccessorOf(@NonNull Node<K, V> node) {
+        if (!node.hasRight()) return Optional.empty();
+
+        Node<K, V> successor = node.getRight();
+        while (successor.hasLeft()) {
+            successor = successor.getLeft();
+        }
+        return Optional.of(successor);
+    }
+
+    public void rotateLeft(@NonNull Node<K, V> pivot) {
+        Node<K, V> subs = pivot.getRight();
+        if (subs == null) throw new IllegalArgumentException("Not rotatable.");
+        transplant(pivot, subs);
+        pivot.setRight(subs.getLeft());
+        subs.setLeft(pivot);
+    }
+
+    public void rotateRight(@NonNull Node<K, V> pivot) {
+        Node<K, V> subs = pivot.getLeft();
+        if (subs == null) throw new IllegalArgumentException("Not rotatable.");
+        transplant(pivot, subs);
+        pivot.setLeft(subs.getRight());
+        subs.setRight(pivot);
+    }
+
+    public void transplant(@NonNull Node<K, V> position, Node<K, V> node) {
+        if (position == getRoot()) {
+            setRoot(node);
+        } else {
+            Node<K, V> parent = findParentOf(position).orElseThrow();
+            if (parent.leftIs(position)) parent.setLeft(node);
+            else parent.setRight(node);
+        }
     }
 
 }
