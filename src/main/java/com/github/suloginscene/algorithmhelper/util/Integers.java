@@ -1,6 +1,6 @@
 package com.github.suloginscene.algorithmhelper.util;
 
-import com.github.suloginscene.algorithmhelper.core.binarysearchtree.BST;
+import com.github.suloginscene.algorithmhelper.core.binarysearchtree.Node;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,23 +39,15 @@ public abstract class Integers implements Iterable<Integer> {
         return array;
     }
 
-    public List<BST.Node<Integer, String>> toNodeList() {
-        return toNodeList(Integer::toBinaryString);
-    }
-
-    public <V> List<BST.Node<Integer, V>> toNodeList(Function<Integer, V> toValueFunction) {
+    public <V> List<Node<Integer, V>> toNodeList(Function<Integer, V> toValueFunction) {
         return integers.stream()
-                .map(i -> new BST.Node<>(i, toValueFunction.apply(i)))
+                .map(i -> new Node<>(i, toValueFunction.apply(i)))
                 .collect(toList());
     }
 
+
     public List<Integer> subList(int start, int end) {
         return integers.subList(start, end);
-    }
-
-    @Override
-    public String toString() {
-        return integers.toString();
     }
 
     @Override
@@ -71,6 +63,11 @@ public abstract class Integers implements Iterable<Integer> {
     @Override
     public Iterator<Integer> iterator() {
         return integers.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return integers.toString();
     }
 
 }

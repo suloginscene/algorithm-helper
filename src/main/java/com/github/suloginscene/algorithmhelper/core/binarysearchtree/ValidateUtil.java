@@ -3,46 +3,49 @@ package com.github.suloginscene.algorithmhelper.core.binarysearchtree;
 import lombok.NonNull;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
 
 class ValidateUtil {
 
-    protected static <K extends Comparable<K>, V> void validateKey(BST.Node<K, V> root, @NonNull K key) {
-        Optional<BST.Node<K, V>> node = findNode(root, key);
-        if (node.isPresent()) throw new IllegalArgumentException("Duplicated key.");
+    protected static <K extends Comparable<K>, V> void validateKey(Node<K, V> root, @NonNull K key) {
+        if (!unique(root, key)) throw new IllegalArgumentException("Not unique key.");
     }
 
-    private static <K extends Comparable<K>, V> Optional<BST.Node<K, V>> findNode(BST.Node<K, V> root, @NonNull K key) {
-        if (root == null) return Optional.empty();
+    private static <K extends Comparable<K>, V> boolean unique(Node<K, V> root, @NonNull K key) {
+        if (root == null) return true;
 
-        BST.Node<K, V> finder = root;
+        Node<K, V> finder = root;
         while ((finder != null) && !finder.isIdentifiedBy(key)) {
             finder = finder.isBiggerThan(key) ? finder.getLeft() : finder.getRight();
         }
-        return Optional.ofNullable(finder);
+        return finder == null;
     }
 
 
-    protected static <K extends Comparable<K>, V> void validateBst(BST.Node<K, V> root) {
-        if (root == null) return;
+    protected static <K extends Comparable<K>, V> void validateBst(Node<K, V> root) {
+        if (!sorted(root)) throw new IllegalArgumentException("Not sorted bst.");
+    }
 
-        List<BST.Node<K, V>> nodes = TraversalUtil.inOrder(root);
+    private static <K extends Comparable<K>, V> boolean sorted(Node<K, V> root) {
+        if (root == null) return true;
 
-        List<BST.Node<K,V>> sorted = nodes.stream()
-                .sorted(BST.Node::compareTo)
+        List<Node<K, V>> nodes = TraversalUtil.inOrder(root);
+
+        List<Node<K, V>> sorted = nodes.stream()
+                .sorted(Node::compareTo)
                 .collect(toList());
 
         int size = nodes.size();
         for (int i = 0; i < size; i++) {
-            BST.Node<K,V> impl = nodes.get(i);
-            BST.Node<K,V> standard = sorted.get(i);
+            Node<K, V> impl = nodes.get(i);
+            Node<K, V> standard = sorted.get(i);
             if (!impl.equals(standard)) {
-                throw new IllegalStateException("Invalid binary search tree.");
+                return false;
             }
         }
+        return true;
     }
 
 }

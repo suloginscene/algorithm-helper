@@ -13,9 +13,9 @@ import static java.util.stream.Collectors.toList;
 
 
 @Slf4j @RequiredArgsConstructor
-public class BSTProfiler<K extends Comparable<K>, V> extends BST<K, V> {
+public class BSTProfiler<K extends Comparable<K>, V> extends BinarySearchTree<K, V> {
 
-    private final BST<K, V> binarySearchTree;
+    private final BinarySearchTree<K, V> binarySearchTree;
 
 
     @Override
@@ -33,6 +33,11 @@ public class BSTProfiler<K extends Comparable<K>, V> extends BST<K, V> {
         long start = currentTimeMillis();
         Optional<Node<K, V>> node = binarySearchTree.findNode(key);
         long end = currentTimeMillis();
+
+        if (node.isEmpty()) {
+            log.info("\n> Node " + key + " not found.\n");
+            return node;
+        }
 
         long time = end - start;
         String path = getPath(key);
