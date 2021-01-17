@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 import static java.lang.System.currentTimeMillis;
 import static lombok.AccessLevel.PRIVATE;
@@ -38,6 +39,22 @@ public class IntegersFactory {
     public static Integers stablyShuffled(int n, boolean logging) {
         long start = currentTimeMillis();
         Integers integers = stablyShuffled(n);
+        long end = currentTimeMillis();
+
+        if (!logging) return integers;
+
+        logIntegers(integers, n, end - start);
+        return integers;
+    }
+
+
+    public static Integers uniqueRandom(int n) {
+        return new Randomized(n);
+    }
+
+    public static Integers uniqueRandom(int n, boolean logging) {
+        long start = currentTimeMillis();
+        Integers integers = uniqueRandom(n);
         long end = currentTimeMillis();
 
         if (!logging) return integers;
@@ -117,6 +134,30 @@ public class IntegersFactory {
             }
         }
 
+    }
+
+
+    private static class Randomized extends Integers {
+
+        private static final Random random = new Random();
+
+        private Randomized(int n) {
+            List<Integer> src = new ArrayList<>();
+            for (int i = 1; i <= n; i++) {
+                src.add(i);
+            }
+
+            while (integers.size() != n) {
+                int index = random.nextInt(src.size());
+                int value = src.get(index);
+                integers.add(value);
+                src.remove(index);
+            }
+
+            first = integers.get(0);
+            mid = integers.get(n / 2);
+            last = integers.get(n - 1);
+        }
     }
 
 }

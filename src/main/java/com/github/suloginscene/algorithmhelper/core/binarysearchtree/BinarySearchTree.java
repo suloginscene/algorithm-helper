@@ -9,9 +9,10 @@ import java.util.function.Function;
 
 public abstract class BinarySearchTree<K extends Comparable<K>, V> {
 
-    public abstract Node<K, V> getRoot();
+    protected abstract Node<K, V> getRoot();
 
-    public abstract void setRoot(Node<K, V> node);
+    protected abstract void setRoot(Node<K, V> node);
+
 
     public void save(@NonNull K key, @NonNull V value) {
         ValidateUtil.validateKey(getRoot(), key);
