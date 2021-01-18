@@ -3,7 +3,9 @@ package com.github.suloginscene.algorithmhelper.core.graph;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -26,8 +28,13 @@ public abstract class Graph<V> {
         return vertices;
     }
 
+    public Set<Path<V>> allPaths() {
+        return getPathMap().keySet();
+    }
+
     public void addEdge(@NonNull V from, @NonNull V to, int weight) {
         if (weight < 0) throw new IllegalArgumentException("Weight should not negative.");
+        if (from == to) throw new IllegalArgumentException("Edge to itself not allowed.");
 
         Map<V, Set<V>> map = getVertexMap();
         if (!map.containsKey(from)) {
@@ -71,6 +78,20 @@ public abstract class Graph<V> {
         return false;
     }
 
+    private boolean isConnectedGraph() {
+        List<V> vertices = new ArrayList<>(allVertices());
+        for (int i = 0; i < vertices.size() - 1; i++) {
+            V from = vertices.get(i);
+            for (int j = i + 1; j < vertices.size(); j++) {
+                V to = vertices.get(j);
+                if (!isConnected(from, to) && !isConnected(to, from)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     public abstract void bfs(@NonNull V start, Consumer<V> consumer);
 
@@ -83,16 +104,25 @@ public abstract class Graph<V> {
 
     protected abstract void doTopologicalSort(Consumer<V> consumer);
 
-    public abstract Map<V, Course<V>> shortestCourses(@NonNull V start);
+    public Map<V, Course<V>> shortestCourses(@NonNull V start) {
+        if (!isConnectedGraph()) throw new IllegalStateException("Graph does not connected.");
+        return doShortestCourses(start);
+    }
 
-    public abstract Graph<V> minimumSpanningTree();
+    protected abstract Map<V, Course<V>> doShortestCourses(@NonNull V start);
 
+    public Graph<V> minimumSpanningTree() {
+        if (!isConnectedGraph()) throw new IllegalStateException("Graph does not connected.");
+        return doMinimumSpanningTree();
+    }
+
+    protected abstract Graph<V> doMinimumSpanningTree();
 
     public void print() {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<V, Set<V>> entry : getVertexMap().entrySet()) {
             V from = entry.getKey();
-            sb.append(from).append(": ");
+            sb.append("  ").append(from).append(": ");
             for (V to : entry.getValue()) {
                 sb.append(to.toString()).append(", ");
             }
