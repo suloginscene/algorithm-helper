@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * Utility collection helping implementation.
+ */
 public class SetSet<V> extends HashSet<Set<V>> {
 
     public Set<V> findSet(V vertex) {

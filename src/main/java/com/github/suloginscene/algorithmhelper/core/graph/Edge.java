@@ -5,9 +5,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
+/**
+ * Data for weighted edge.
+ * It is comparable by weight, can be found by from and to.
+ */
 @Getter @EqualsAndHashCode(of = {"from", "to"})
 @RequiredArgsConstructor
-public class Path<V> implements Comparable<Path<V>> {
+public class Edge<V> implements Comparable<Edge<V>> {
 
     private final V from;
     private final V to;
@@ -16,7 +20,7 @@ public class Path<V> implements Comparable<Path<V>> {
 
 
     @Override
-    public int compareTo(Path<V> another) {
+    public int compareTo(Edge<V> another) {
         return Integer.compare(weight, another.weight);
     }
 

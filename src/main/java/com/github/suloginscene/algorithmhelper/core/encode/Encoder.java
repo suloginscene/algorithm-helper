@@ -6,8 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * Core abstract class to extend, providing utility methods.
+ * It is designed for just converting string to string, not for compressing.
+ * If you want to learn compression, I recommend encode as binary string and using profiler.
+ */
 public abstract class Encoder {
 
+    /**
+     * Public interface, and also template method.
+     * After tokenizing text and building metadata by user's implementation,
+     * it validate metadata and export string upon rule.
+     *
+     * @return result string has metadata and encoded content.
+     */
     public String encode(String text) {
         List<String> tokens = tokenize(text);
         Map<String, String> metadata = mapTokenCode(tokens);
@@ -17,8 +29,14 @@ public abstract class Encoder {
         return exportString(text.length(), metadata, content);
     }
 
+    /**
+     * Abstract method to implement.
+     */
     protected abstract List<String> tokenize(String text);
 
+    /**
+     * Abstract method to implement.
+     */
     protected abstract Map<String, String> mapTokenCode(List<String> tokens);
 
     private void validateCodes(Collection<String> values) {
@@ -62,6 +80,11 @@ public abstract class Encoder {
     }
 
 
+    /**
+     * Implemented public interface.
+     *
+     * @param encoded Encoded string should follow rule.
+     */
     public String decode(String encoded) {
         String[] lines = encoded.split("\n");
         Map<String, String> metadata = parseMetadata(lines);

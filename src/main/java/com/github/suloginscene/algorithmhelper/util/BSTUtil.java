@@ -12,7 +12,10 @@ import static java.lang.System.currentTimeMillis;
 @Slf4j
 public class BSTUtil {
 
-    public static <K extends Comparable<K>, V> void initWithProfiling(BinarySearchTree<K, V> bst, List<Node<K, V>> data, int interval) {
+    /**
+     * When save many data in bst, like on test, log progress.
+     */
+    public static <K extends Comparable<K>, V> void saveDataLoggingProgress(BinarySearchTree<K, V> bst, List<? extends Node<K, V>> data, int interval) {
         int i = 0;
         long start = currentTimeMillis();
         for (Node<K, V> node : data) {

@@ -13,6 +13,11 @@ import static java.lang.System.currentTimeMillis;
 import static lombok.AccessLevel.PRIVATE;
 
 
+/**
+ * Create integers of increasing, stably shuffled, unique random.
+ * Stably shuffled integers are same on same n.
+ * Unique random integers are randomized, but has no same element.
+ */
 @Slf4j @NoArgsConstructor(access = PRIVATE)
 public class IntegersFactory {
 

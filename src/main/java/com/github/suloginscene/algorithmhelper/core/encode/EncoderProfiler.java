@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * Profiler logging expected file size on encoded binary string.
+ */
 @Slf4j @RequiredArgsConstructor
 public class EncoderProfiler extends Encoder {
 

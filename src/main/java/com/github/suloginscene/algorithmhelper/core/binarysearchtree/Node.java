@@ -4,6 +4,15 @@ import lombok.Data;
 import lombok.NonNull;
 
 
+/**
+ * Concrete class, providing methods for compare and child.
+ * It can be extended, but I think it is enough on our BinarySearchTree.
+ * BinarySearchTree is not suitable for red-black-tree, so color field is useless.
+ * BinarySearchTree provide #findParentOf(Node), so parent field is unnecessary.
+ *
+ * @param <K> Key should be comparable and unique in tree. Node is comparable by key.
+ * @param <V> Value
+ */
 @Data
 public class Node<K extends Comparable<K>, V> implements Comparable<Node<K, V>> {
 

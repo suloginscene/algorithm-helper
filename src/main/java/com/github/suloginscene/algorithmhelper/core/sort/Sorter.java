@@ -14,7 +14,13 @@ import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.QUICK;
 import static com.github.suloginscene.algorithmhelper.core.sort.Strategy.SELECTION;
 
 
-public class Sorts {
+/**
+ * Algorithm executor holding Strategy.
+ * On construction, it store Algorithms by injection.
+ * On performing, it execute Algorithm by Strategy.
+ * Strategy is just enum, and it can be injected.
+ */
+public class Sorter {
 
     private final Map<Strategy, Algorithm> map = new HashMap<>();
 
@@ -22,7 +28,7 @@ public class Sorts {
     private Strategy strategy;
 
 
-    public Sorts(AlgorithmContainer algorithmContainer) {
+    public Sorter(AlgorithmContainer algorithmContainer) {
         map.put(BUBBLE, algorithmContainer.bubble());
         map.put(SELECTION, algorithmContainer.selection());
         map.put(INSERTION, algorithmContainer.insertion());

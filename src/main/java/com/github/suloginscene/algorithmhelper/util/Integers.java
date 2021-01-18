@@ -1,6 +1,5 @@
 package com.github.suloginscene.algorithmhelper.util;
 
-import com.github.suloginscene.algorithmhelper.core.binarysearchtree.Node;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,11 +9,15 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 import static lombok.AccessLevel.PROTECTED;
 
 
+/**
+ * Data wrapping list of integer.
+ * It can be converted to integer list, int array, and type list.
+ */
 @NoArgsConstructor(access = PROTECTED)
 public abstract class Integers implements Iterable<Integer> {
 
@@ -39,10 +42,10 @@ public abstract class Integers implements Iterable<Integer> {
         return array;
     }
 
-    public <V> List<Node<Integer, V>> toNodeList(Function<Integer, V> toValueFunction) {
+    public <T> List<T> toTypeList(Function<Integer, T> toTypeFunction) {
         return integers.stream()
-                .map(i -> new Node<>(i, toValueFunction.apply(i)))
-                .collect(toList());
+                .map(toTypeFunction)
+                .collect(Collectors.toList());
     }
 
 

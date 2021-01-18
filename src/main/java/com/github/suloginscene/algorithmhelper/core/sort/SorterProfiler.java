@@ -8,10 +8,13 @@ import static java.lang.System.arraycopy;
 import static java.lang.System.currentTimeMillis;
 
 
+/**
+ * Profiler logging time and result.
+ */
 @Slf4j
-public class SortsProfiler extends Sorts {
+public class SorterProfiler extends Sorter {
 
-    public SortsProfiler(AlgorithmContainer algorithmContainer) {
+    public SorterProfiler(AlgorithmContainer algorithmContainer) {
         super(algorithmContainer);
     }
 
