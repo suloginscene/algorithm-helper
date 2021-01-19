@@ -14,8 +14,8 @@ import static java.lang.System.currentTimeMillis;
 @Slf4j
 public class SorterProfiler extends Sorter {
 
-    public SorterProfiler(AlgorithmContainer algorithmContainer) {
-        super(algorithmContainer);
+    public SorterProfiler(SortContainer sortContainer) {
+        super(sortContainer);
     }
 
 

@@ -1,4 +1,4 @@
-package com.github.suloginscene.algorithmhelper.core.graph;
+package com.github.suloginscene.algorithmhelper.util;
 
 
 /**

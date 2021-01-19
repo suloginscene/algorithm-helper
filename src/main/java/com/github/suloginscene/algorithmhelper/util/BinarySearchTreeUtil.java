@@ -10,7 +10,7 @@ import static java.lang.System.currentTimeMillis;
 
 
 @Slf4j
-public class BSTUtil {
+public class BinarySearchTreeUtil {
 
     /**
      * When save many data in bst, like on test, log progress.

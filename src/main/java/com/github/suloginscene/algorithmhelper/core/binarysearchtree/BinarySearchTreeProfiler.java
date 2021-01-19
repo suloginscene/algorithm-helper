@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
  * Profiler logging time and path.
  */
 @Slf4j @RequiredArgsConstructor
-public class BSTProfiler<K extends Comparable<K>, V> extends BinarySearchTree<K, V> {
+public class BinarySearchTreeProfiler<K extends Comparable<K>, V> extends BinarySearchTree<K, V> {
 
     private final BinarySearchTree<K, V> binarySearchTree;
 
