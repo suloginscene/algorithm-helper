@@ -70,18 +70,27 @@ public abstract class BinarySearchTree<K extends Comparable<K>, V> {
 class AvlTreeTest {
     @Test
     void find() {
-        Integers integers = IntegersFactory.stablyShuffled(1000, true); // n에 따라 항상 동일하게 섞인 정수 리스트 생성
-        List<Node<Integer, String>> nodes = integers.toTypeList(i -> new Node<>(i, Integer.toHexString(i))); // 타입 변환
+        // n에 따라 항상 동일하게 섞인 정수 리스트 생성
+        Integers integers = IntegersFactory.stablyShuffled(1000, true);
+        // 원하는 타입의 리스트로 변환
+        List<Node<Integer, String>> nodes = integers.toTypeList(i -> new Node<>(i, Integer.toHexString(i)));
 
-        BinarySearchTree<Integer, String> bst = new BinarySearchTreeProfiler<>(new AvlTree()); // 프로파일러를 프록시로 사용
-        BinarySearchTreeUtil.saveDataLoggingProgress(bst, nodes, 100); // 테스트 전 데이터 입력 및 진행 상황 로깅
+        // 프로파일러를 프록시로 사용
+        BinarySearchTree<Integer, String> bst = new BinarySearchTreeProfiler<>(new AvlTree());
+        // 테스트 전 데이터 입력 및 진행 상황 로깅
+        BinarySearchTreeUtil.saveDataLoggingProgress(bst, nodes, 100);
 
-        Integer key = integers.getMid(); // 테스트 데이터 리스트의 중앙 값
-        Object value = bst.findValue(key).orElse(null); // When
-        assertEquals(Integer.toHexString(key), value); // Then
+        // 테스트 데이터 리스트의 중앙 값
+        Integer key = integers.getMid();
+        // When
+        Object value = bst.findValue(key).orElse(null);
+        // Then
+        assertEquals(Integer.toHexString(key), value);
 
-        bst.print(Node::toString); // 트리 형태로 노드의 toString() 출력
-        bst.printPaths(); // 루트부터 리프까지의 모든 경로 출력
+        // 트리 형태로 노드의 toString() 출력
+        bst.print(Node::toString);
+        // 루트부터 리프까지의 모든 경로 출력
+        bst.printPaths();
     }
 }
         /*  개략적인 로그
@@ -125,7 +134,7 @@ class AvlTreeTest {
 <dependency>
     <groupId>com.github.suloginscene</groupId>
     <artifactId>algorithm-helper</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -265,7 +274,7 @@ public class EncoderImpl extends Encoder {
 }
 ```
 
-- **EncoderProfiler**는 부호화된 문자열의 본문이 이진 문자열인 경우, 이를 비트열이라고 생각하면 얼만큼 압축되는지를 축정합니다.
+- **EncoderProfiler**는 부호화된 문자열의 본문이 이진 문자열인 경우, 이를 비트열이라고 생각하면 얼만큼 압축되는지를 측정합니다.
 
 ### 기타(유틸리티)
 
@@ -280,5 +289,5 @@ public class EncoderImpl extends Encoder {
 ## 더 보기
 
 - [예시 코드](https://github.com/suloginscene/algorithm-helper-usage)
-- [개발자 블로그](https://onpaper.cf/topics/2102)
-- [알고리즘 헬퍼 Javadoc](https://suloginscene.github.io/sort-helper/)
+- [개발자 블로그](https://onpaper.cf/magazines/102)
+- [알고리즘 헬퍼 Javadoc](https://suloginscene.github.io/algorithm-helper/)
