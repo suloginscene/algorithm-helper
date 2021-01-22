@@ -14,9 +14,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 
 /**
- * Create integers of increasing, stably shuffled, unique random.
- * Stably shuffled integers are same on same n.
- * Unique random integers are randomized, but has no same element.
+ * Create integers of increasing, stably shuffled, randomly shuffled.
  */
 @Slf4j @NoArgsConstructor(access = PRIVATE)
 public class IntegersFactory {
@@ -38,7 +36,7 @@ public class IntegersFactory {
     public static Integers stablyShuffled(int n) {
         if (n < 3) throw new IllegalArgumentException("Too short to shuffle.(min: 3)");
 
-        return new Shuffled(n);
+        return new StablyShuffled(n);
     }
 
     public static Integers stablyShuffled(int n, boolean logging) {
@@ -53,13 +51,13 @@ public class IntegersFactory {
     }
 
 
-    public static Integers uniqueRandom(int n) {
-        return new Randomized(n);
+    public static Integers randomlyShuffled(int n) {
+        return new RandomlyShuffled(n);
     }
 
-    public static Integers uniqueRandom(int n, boolean logging) {
+    public static Integers randomlyShuffled(int n, boolean logging) {
         long start = currentTimeMillis();
-        Integers integers = uniqueRandom(n);
+        Integers integers = randomlyShuffled(n);
         long end = currentTimeMillis();
 
         if (!logging) return integers;
@@ -97,9 +95,9 @@ public class IntegersFactory {
     }
 
 
-    private static class Shuffled extends Integers {
+    private static class StablyShuffled extends Integers {
 
-        private Shuffled(int n) {
+        private StablyShuffled(int n) {
             for (int i = 1; i <= n; i++) {
                 integers.add(i);
             }
@@ -142,21 +140,23 @@ public class IntegersFactory {
     }
 
 
-    private static class Randomized extends Integers {
+    private static class RandomlyShuffled extends Integers {
 
         private static final Random random = new Random();
 
-        private Randomized(int n) {
-            List<Integer> src = new ArrayList<>();
-            for (int i = 1; i <= n; i++) {
-                src.add(i);
+        private RandomlyShuffled(int n) {
+            int[] array = new int[n];
+            for (int i = 0; i < n; i++) {
+                array[i] = i + 1;
             }
 
-            while (integers.size() != n) {
-                int index = random.nextInt(src.size());
-                int value = src.get(index);
-                integers.add(value);
-                src.remove(index);
+            for (int i = 0; i < n - 1; i++) {
+                int j = random.nextInt(n - i) + i;
+                SortUtil.swap(array, i, j);
+            }
+
+            for (int i : array) {
+                integers.add(i);
             }
 
             first = integers.get(0);

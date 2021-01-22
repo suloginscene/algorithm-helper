@@ -134,7 +134,7 @@ class AvlTreeTest {
 <dependency>
     <groupId>com.github.suloginscene</groupId>
     <artifactId>algorithm-helper</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
@@ -289,5 +289,5 @@ public class EncoderImpl extends Encoder {
 ## 더 보기
 
 - [예시 코드](https://github.com/suloginscene/algorithm-helper-usage)
-- [개발자 블로그](https://onpaper.cf/magazines/102)
+- [개발자 블로그](https://onpaper.cf/topics/2103)
 - [알고리즘 헬퍼 Javadoc](https://suloginscene.github.io/algorithm-helper/)
