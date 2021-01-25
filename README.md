@@ -282,8 +282,7 @@ public class EncoderImpl extends Encoder {
 - **BinarySearchTreeUtil**은 `saveDataLogginProgress()`를 제공합니다. 자가균형 이진탐색트리는 저장이 다소 느릴 수 있는데, 대량의 테스트 데이터 입력 시 진행상황을 확인하고
   싶다면 사용할 수 있습니다.
 - **Integers**는 List\<Integer\>를 감싸는 데이터 객체이며, int[] 및 List\<T\>를 추출하는 메서드를 제공합니다.
-- **IntegersFactory**는 1부터 n까지의 Integers를 생성하는데, 오름차순, n이 같다면 항상 동일하게 섞인 상태, 숫자가 중복되지 않게 랜덤으로 만들어진 상태로 생성합니다. 개인적으로는 구현
-  초기에는 동일하게 섞인 데이터로, 확인 단계에서는 랜덤 데이터로 테스트 하는 것을 선호합니다.
+- **IntegersFactory**는 1부터 n까지의 Integers를 생성하는데, 오름차순, 무작위 셔플, 안정적 셔플(같은 n에 대하여 항상 동일한 결과를 갖는 셔플) 상태로 생성합니다.
 - **Alphabet**은 단지 enum입니다. Graph\<V>에서 V(vertex)를 담당하는 등으로 활용할 수 있습니다.
 
 ## 더 보기
